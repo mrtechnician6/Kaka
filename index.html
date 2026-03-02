@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Message for Kaka | NK Digital Services</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #f43f5e;
+            --bg: #0f172a;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: white;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #main-container {
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            z-index: 2;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        h1 { font-size: 2.5rem; margin-bottom: 10px; color: #fff; }
+        p { font-size: 1.1rem; line-height: 1.6; color: #cbd5e1; }
+
+        .btn-container {
+            margin-top: 30px;
+            position: relative;
+            height: 100px;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: absolute;
+        }
+
+        #yesBtn {
+            background: linear-gradient(45deg, #10b981, #3b82f6);
+            color: white;
+            left: 20%;
+        }
+
+        #noBtn {
+            background: var(--accent);
+            color: white;
+            right: 20%;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #f2d74e;
+            top: -10px;
+            z-index: 1;
+        }
+
+        /* Hidden success message */
+        #success-msg {
+            display: none;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="main-container">
+        <div class="glass-card" id="proposal-card">
+            <h1 id="title">Dear Kaka... ❤️</h1>
+            <p id="description">
+                You've always been my favorite! I'm working hard on <b>NK Digital Services</b> and <b>Mrtechnician</b>. 
+                I have a small request that would help me reach the next level. 
+                Can you please help your favorite nephew with some "Investment of Love"? 
+            </p>
+            
+            <div class="btn-container">
+                <button class="btn" id="yesBtn" onclick="celebrate()">Hunchha Babu!</button>
+                <button class="btn" id="noBtn" onmouseover="moveButton()">Chaina...</button>
+            </div>
+        </div>
+
+        <div class="glass-card" id="success-msg">
+            <h1>I Knew It! 😍</h1>
+            <p>You are the best Kaka in the world! I will make you proud with my work at Mrtechnician. I'll call you in 5 minutes to discuss the "details"! 😉</p>
+            <p style="font-size: 0.8rem; margin-top: 20px;">Powered by NK Digital Services</p>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const card = document.getElementById('proposal-card');
+        const success = document.getElementById('success-msg');
+        const music = document.getElementById('bgMusic');
+
+        // Function to make the "No" button run away
+        function moveButton() {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            
+            // Start music on first attempt to click 'No' or 'Yes'
+            music.play();
+        }
+
+        function celebrate() {
+            card.style.display = 'none';
+            success.style.display = 'block';
+            music.play();
+            createConfetti();
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+                confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                document.body.appendChild(confetti);
+            }
+        }
+
+        // Add CSS for falling confetti
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fall {
+                to { transform: translateY(100vh) rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
