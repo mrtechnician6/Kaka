@@ -1,168 +1,184 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ne">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Special Message for Kaka | NK Digital Services</title>
+    <title>काकाको लागि एउटा सानो उपहार | NK Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --accent: #f43f5e;
-            --bg: #0f172a;
+            --gold: #d4af37;
+            --dark: #0a0a0a;
+            --glass: rgba(255, 255, 255, 0.1);
         }
 
-        body {
+        body, html {
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
+            padding: 0;
+            font-family: 'Mukta', sans-serif;
+            background-color: var(--dark);
             color: white;
             overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- STAGE 1: THE UNLOCK SCREEN --- */
+        #lock-screen {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, #1a1a1a, #000);
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            z-index: 999;
+            transition: 1s ease-in-out;
         }
 
-        #main-container {
-            text-align: center;
-            padding: 20px;
-            max-width: 600px;
-            z-index: 2;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-
-        h1 { font-size: 2.5rem; margin-bottom: 10px; color: #fff; }
-        p { font-size: 1.1rem; line-height: 1.6; color: #cbd5e1; }
-
-        .btn-container {
-            margin-top: 30px;
-            position: relative;
-            height: 100px;
-        }
-
-        .btn {
-            padding: 15px 35px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border: none;
-            border-radius: 50px;
+        .unlock-btn {
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            background: none;
+            border: 2px solid var(--gold);
+            color: var(--gold);
             cursor: pointer;
-            transition: transform 0.2s;
-            position: absolute;
+            border-radius: 50px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            transition: 0.3s;
         }
 
-        #yesBtn {
-            background: linear-gradient(45deg, #10b981, #3b82f6);
-            color: white;
-            left: 20%;
+        .unlock-btn:hover {
+            background: var(--gold);
+            color: black;
+            box-shadow: 0 0 40px var(--gold);
         }
 
-        #noBtn {
-            background: var(--accent);
-            color: white;
-            right: 20%;
+        /* --- STAGE 2: THE MAIN CONTENT --- */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 20px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: 1.5s all ease;
         }
 
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background-color: #f2d74e;
-            top: -10px;
-            z-index: 1;
+        .container.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Hidden success message */
-        #success-msg {
-            display: none;
-            animation: fadeIn 1s forwards;
+        .kaka-photo {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 5px solid var(--gold);
+            object-fit: cover;
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
         }
 
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        h1 { font-size: 3rem; color: var(--gold); margin-bottom: 10px; }
+        .quote { font-style: italic; color: #ccc; font-size: 1.2rem; margin-bottom: 40px; }
+
+        .message-box {
+            background: var(--glass);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            line-height: 1.8;
+            font-size: 1.3rem;
+            text-align: left;
+        }
+
+        /* --- THE SURPRISE REVEAL --- */
+        .surprise-section {
+            margin-top: 100px;
+            padding: 50px;
+            border: 2px dashed var(--gold);
+            border-radius: 20px;
+        }
+
+        .heart { color: #ff4d4d; font-size: 3rem; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        .hidden-text { display: none; margin-top: 20px; animation: fadeIn 2s; }
+
+        .reveal-btn {
+            background: var(--gold);
+            color: black;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .message-box { font-size: 1.1rem; }
+        }
     </style>
 </head>
 <body>
 
-    <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    <audio id="myAudio" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="main-container">
-        <div class="glass-card" id="proposal-card">
-            <h1 id="title">Dear Kaka... ❤️</h1>
-            <p id="description">
-                You've always been my favorite! I'm working hard on <b>NK Digital Services</b> and <b>Mrtechnician</b>. 
-                I have a small request that would help me reach the next level. 
-                Can you please help your favorite nephew with some "Investment of Love"? 
-            </p>
-            
-            <div class="btn-container">
-                <button class="btn" id="yesBtn" onclick="celebrate()">Hunchha Babu!</button>
-                <button class="btn" id="noBtn" onmouseover="moveButton()">Chaina...</button>
-            </div>
+    <div id="lock-screen">
+        <h2 style="color:white; margin-bottom: 20px;">काकाको लागि एउटा विशेष सन्देश...</h2>
+        <button class="unlock-btn" onclick="openGift()">सर्प्राइज खोल्नुहोस् 🎁</button>
+    </div>
+
+    <div class="container" id="mainContent">
+        <img src="https://via.placeholder.com/250" alt="Kaka" class="kaka-photo">
+        
+        <h1>आदरणीय काका,</h1>
+        <p class="quote">"परिवारको शान, हाम्रो मुस्कान"</p>
+
+        <div class="message-box">
+            <p>हजुर जस्तो बुझ्ने र सहयोगी काका पाउनु मेरो अहोभाग्य हो। जीवनको हरेक मोडमा हजुरको मार्गदर्शन मेरो लागि सधैं प्रेरणाको स्रोत बनेको छ।</p>
+            <p>मैले हालै <b>NK Digital Services</b> मार्फत नयाँ कामको सुरुवात गरेको छु। म चाहन्छु कि मेरो यो यात्रामा हजुरको आशीर्वाद सधैं रहोस्। हजुरको सानो सहयोगले मेरो यो सपनालाई ठूलो पखेटा दिन सक्छ।</p>
         </div>
 
-        <div class="glass-card" id="success-msg">
-            <h1>I Knew It! 😍</h1>
-            <p>You are the best Kaka in the world! I will make you proud with my work at Mrtechnician. I'll call you in 5 minutes to discuss the "details"! 😉</p>
-            <p style="font-size: 0.8rem; margin-top: 20px;">Powered by NK Digital Services</p>
+        <div class="surprise-section">
+            <div class="heart">❤️</div>
+            <h3>एउटा सानो अनुरोध</h3>
+            <button class="reveal-btn" onclick="showSurprise()">यहाँ थिच्नुहोस्</button>
+            
+            <div id="surpriseText" class="hidden-text">
+                <p style="font-size: 1.5rem; color: var(--gold);">
+                    "काका, मलाई मेरो प्रोजेक्टको लागि केहि आर्थिक सहयोगको आवश्यकता थियो। हजुरले मायाले जे दिनुहुन्छ, त्यो मेरो लागि ठूलो आशीर्वाद हुनेछ।"
+                </p>
+                <p>धन्यवाद काका! हजुरको प्रिय भतिजो, <b>निर</b></p>
+            </div>
         </div>
     </div>
 
     <script>
-        const noBtn = document.getElementById('noBtn');
-        const yesBtn = document.getElementById('yesBtn');
-        const card = document.getElementById('proposal-card');
-        const success = document.getElementById('success-msg');
-        const music = document.getElementById('bgMusic');
+        function openGift() {
+            // Play Music
+            const audio = document.getElementById('myAudio');
+            audio.play();
 
-        // Function to make the "No" button run away
-        function moveButton() {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            
-            noBtn.style.position = 'fixed';
-            noBtn.style.left = x + 'px';
-            noBtn.style.top = y + 'px';
-            
-            // Start music on first attempt to click 'No' or 'Yes'
-            music.play();
+            // Hide Lock Screen
+            document.getElementById('lock-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('mainContent').classList.add('visible');
+            }, 1000);
         }
 
-        function celebrate() {
-            card.style.display = 'none';
-            success.style.display = 'block';
-            music.play();
-            createConfetti();
+        function showSurprise() {
+            const text = document.getElementById('surpriseText');
+            text.style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
         }
-
-        function createConfetti() {
-            for (let i = 0; i < 100; i++) {
-                const confetti = document.createElement('div');
-                confetti.classList.add('confetti');
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-                confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
-                document.body.appendChild(confetti);
-            }
-        }
-
-        // Add CSS for falling confetti
-        const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes fall {
-                to { transform: translateY(100vh) rotate(360deg); }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
