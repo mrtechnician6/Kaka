@@ -3,181 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>काकाको लागि एउटा सानो उपहार | NK Digital</title>
-    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;700&display=swap" rel="stylesheet">
+    <title>काकाको लागि एउटा विशेष उपहार</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gold: #d4af37;
-            --dark: #0a0a0a;
-            --glass: rgba(255, 255, 255, 0.1);
+            --gold: #ffcc33;
+            --soft-pink: #ffebf0;
+            --deep-royal: #1a1a2e;
         }
 
         body, html {
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: 100%;
             font-family: 'Mukta', sans-serif;
-            background-color: var(--dark);
+            background-color: var(--deep-royal);
             color: white;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+            overflow: hidden; /* Prevents scrolling for the "App" feel */
         }
 
-        /* --- STAGE 1: THE UNLOCK SCREEN --- */
-        #lock-screen {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle, #1a1a1a, #000);
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 999;
-            transition: 1s ease-in-out;
-        }
-
-        .unlock-btn {
-            padding: 20px 40px;
-            font-size: 1.5rem;
-            background: none;
-            border: 2px solid var(--gold);
-            color: var(--gold);
-            cursor: pointer;
-            border-radius: 50px;
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-            transition: 0.3s;
-        }
-
-        .unlock-btn:hover {
-            background: var(--gold);
-            color: black;
-            box-shadow: 0 0 40px var(--gold);
-        }
-
-        /* --- STAGE 2: THE MAIN CONTENT --- */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 50px 20px;
             text-align: center;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: 1.5s all ease;
-        }
-
-        .container.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .kaka-photo {
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            border: 5px solid var(--gold);
-            object-fit: cover;
-            margin-bottom: 30px;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
-        }
-
-        h1 { font-size: 3rem; color: var(--gold); margin-bottom: 10px; }
-        .quote { font-style: italic; color: #ccc; font-size: 1.2rem; margin-bottom: 40px; }
-
-        .message-box {
-            background: var(--glass);
             padding: 30px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            line-height: 1.8;
-            font-size: 1.3rem;
-            text-align: left;
+            box-sizing: border-box;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s;
+            transform: translateX(100%);
+            opacity: 0;
         }
 
-        /* --- THE SURPRISE REVEAL --- */
-        .surprise-section {
-            margin-top: 100px;
-            padding: 50px;
-            border: 2px dashed var(--gold);
-            border-radius: 20px;
+        .page.active {
+            transform: translateX(0);
+            opacity: 1;
         }
 
-        .heart { color: #ff4d4d; font-size: 3rem; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .page.exit {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
 
-        .hidden-text { display: none; margin-top: 20px; animation: fadeIn 2s; }
+        /* Hero Image Style */
+        .kaka-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--gold);
+            object-fit: cover;
+            margin-bottom: 25px;
+            box-shadow: 0 0 30px rgba(255, 204, 51, 0.4);
+        }
 
-        .reveal-btn {
-            background: var(--gold);
-            color: black;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
+        h1 { font-size: 2.2rem; color: var(--gold); text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        p { font-size: 1.3rem; line-height: 1.6; max-width: 500px; color: #e0e0e0; }
+
+        /* Navigation Buttons */
+        .nav-btn {
+            margin-top: 40px;
+            padding: 15px 40px;
             font-size: 1.2rem;
+            font-weight: 600;
+            background: linear-gradient(45deg, #f39c12, #d35400);
+            border: none;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: 0.3s;
+            animation: pulse 2s infinite;
         }
 
-        /* Mobile Optimization */
-        @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .message-box { font-size: 1.1rem; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
+
+        /* Specific Page Themes */
+        #page1 { background: linear-gradient(to bottom, #1a1a2e, #16213e); opacity: 1; transform: translateX(0); }
+        #page2 { background: linear-gradient(to bottom, #16213e, #0f3460); }
+        #page3 { background: linear-gradient(to bottom, #0f3460, #533483); }
+        #page4 { background: linear-gradient(to bottom, #533483, #1a1a2e); }
+
+        .highlight { color: var(--gold); font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <audio id="myAudio" loop>
-        <source src="Kusume rumale_Fyp _Oldnepalisong _Oldisgold_22 _90svibesonly _triptinadkar_ _bhuwankc _nepali _movie(MP3).mp3" type="audio/mpeg">
+    <audio id="mainMusic" loop>
+        <source src="The Eye contact which never fades.❤️ _fypシ _fyp _uditnarayan _masterpiece _oldnepalisong _goviral(MP3).mp3" type="audio/mpeg">
     </audio>
 
-    <div id="lock-screen">
-        <h2 style="color:white; margin-bottom: 20px;">काकाको लागि एउटा विशेष सन्देश...</h2>
-        <button class="unlock-btn" onclick="openGift()">सर्प्राइज खोल्नुहोस् 🎁</button>
+    <div class="page active" id="page1">
+        <img src="1772457896073.jpg" alt="Kaka" class="kaka-img">
+        <h1>आदरणीय काका, ❤️</h1>
+        <p>नबोलेको र नभेटेको धेरै भयो, तर हजुरको याद सधैं मनमै छ। हजुरको त्यो आशिर्वाद र मायाको कमी सधैं महसुस भइरहन्छ।</p>
+        <button class="nav-btn" onclick="nextPage(1)">काकाको लागि एउटा अचम्म... ✨</button>
     </div>
 
-    <div class="container" id="mainContent">
-        <img src="1772457896073.jpg" alt="Kaka" class="kaka-photo">
-        
-        <h1>आदरणीय काका,</h1>
-        <p class="quote">"परिवारको शान, हाम्रो मुस्कान"</p>
+    <div class="page" id="page2">
+        <h1>हजुर मेरो लागि प्रेरणा हो! 🌟</h1>
+        <p>सबैको काका हुन्छन्, तर हजुर जस्तो <span class="highlight">Special</span> कसैको हुँदैन। हजुरको सफलता र व्यक्तित्वले मलाई सधैं अगाडि बढ्न सिकाउँछ।</p>
+        <button class="nav-btn" onclick="nextPage(2)">अझै एउटा कुरा छ... ❤️</button>
+    </div>
 
-        <div class="message-box">
-            <p>हजुर जस्तो बुझ्ने र सहयोगी काका पाउनु मेरो अहोभाग्य हो। जीवनको हरेक मोडमा हजुरको मार्गदर्शन मेरो लागि सधैं प्रेरणाको स्रोत बनेको छ।</p>
-            <p>मैले हालै <b>NK Digital Services</b> मार्फत नयाँ कामको सुरुवात गरेको छु। म चाहन्छु कि मेरो यो यात्रामा हजुरको आशीर्वाद सधैं रहोस्। हजुरको सानो सहयोगले मेरो यो सपनालाई ठूलो पखेटा दिन सक्छ।</p>
-        </div>
+    <div class="page" id="page3">
+        <h1>हजुरको भतिजोको प्रगति 🚀</h1>
+        <p>काका, म केहि नयाँ र ठूलो गर्ने प्रयास गर्दैछु। हजुरको सानो साथले मेरो यो मेहनतलाई अझै सफल बनाउन सक्छ। हजुरको माया नै मेरो सबैभन्दा ठूलो शक्ति हो।</p>
+        <button class="nav-btn" onclick="nextPage(3)">मेरो मनको कुरा... 👉</button>
+    </div>
 
-        <div class="surprise-section">
-            <div class="heart">❤️</div>
-            <h3>एउटा सानो अनुरोध</h3>
-            <button class="reveal-btn" onclick="showSurprise()">यहाँ थिच्नुहोस्</button>
-            
-            <div id="surpriseText" class="hidden-text">
-                <p style="font-size: 1.5rem; color: var(--gold);">
-                    "काका, मलाई मेरो प्रोजेक्टको लागि केहि आर्थिक सहयोगको आवश्यकता थियो। हजुरले मायाले जे दिनुहुन्छ, त्यो मेरो लागि ठूलो आशीर्वाद हुनेछ।"
-                </p>
-                <p>धन्यवाद काका! हजुरको प्रिय भतिजो, <b>निर</b></p>
-            </div>
+    <div class="page" id="page4">
+        <h1>मुस्कानका साथ एउटा सानो सहयोग! 😊</h1>
+        <p>काका, हजुरको यो भतिजोलाई अहिले एउटा सानो आर्थिक सहयोगको खाँचो परेको छ।</p>
+        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; margin: 20px 0;">
+            <p style="font-size: 1.5rem; margin: 0;">हजुरले मायाले जे दिनुहुन्छ, <br>त्यो मेरो लागि ठूलो <span class="highlight">उपहार</span> हुनेछ।</p>
         </div>
+        <p>मलाई विश्वास छ, हजुरले मलाई कहिल्यै नाइँ भन्नुहुने छैन। धेरै माया काका! ❤️</p>
+        <p style="font-size: 0.8rem; opacity: 0.6;">- हजुरको प्रिय भतिजो, निर</p>
     </div>
 
     <script>
-        function openGift() {
-            // Play Music
-            const audio = document.getElementById('myAudio');
-            audio.play();
+        let current = 1;
+        const music = document.getElementById('mainMusic');
 
-            // Hide Lock Screen
-            document.getElementById('lock-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('lock-screen').style.display = 'none';
-                document.getElementById('mainContent').classList.add('visible');
-            }, 1000);
-        }
+        function nextPage(pageNumber) {
+            // Start music on first tap
+            if(pageNumber === 1) {
+                music.play().catch(e => console.log("Music needs user interaction first"));
+            }
 
-        function showSurprise() {
-            const text = document.getElementById('surpriseText');
-            text.style.display = 'block';
-            window.scrollTo(0, document.body.scrollHeight);
+            const currentId = 'page' + pageNumber;
+            const nextId = 'page' + (pageNumber + 1);
+
+            document.getElementById(currentId).classList.remove('active');
+            document.getElementById(currentId).classList.add('exit');
+            
+            const nextPageEl = document.getElementById(nextId);
+            if(nextPageEl) {
+                nextPageEl.classList.add('active');
+            }
         }
     </script>
 </body>
