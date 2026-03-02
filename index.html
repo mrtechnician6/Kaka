@@ -43,6 +43,8 @@
 
         .page.active { transform: translateX(0); opacity: 1; }
         .page.exit { transform: translateX(-100%); opacity: 0; }
+        .page.back-exit { transform: translateX(100%); opacity: 0; }
+        .page.back-enter { transform: translateX(-100%); opacity: 1; }
 
         .kaka-img {
             width: 180px;
@@ -57,7 +59,7 @@
         h1 { font-size: 2.2rem; color: var(--gold); text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         p { font-size: 1.3rem; line-height: 1.6; max-width: 500px; color: #e0e0e0; }
 
-        .nav-btn, .wa-btn, .reply-btn {
+        .nav-btn, .wa-btn, .reply-btn, .back-btn {
             border: none;
             color: white;
             border-radius: 50px;
@@ -77,65 +79,53 @@
             background: linear-gradient(45deg, #f39c12, #d35400);
             animation: pulse 2s infinite;
         }
+
+        .back-btn {
+            margin-top: 20px;
+            padding: 8px 20px;
+            background: rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
         
-        /* Smaller WhatsApp Button */
         .wa-btn { 
-            margin-top: 25px;
-            padding: 10px 25px;
-            font-size: 1rem;
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1.1rem;
             background: var(--whatsapp-green); 
             animation: glow 1.5s infinite; 
-            border: 1px solid white;
         }
 
-        /* Reply Buttons */
-        .reply-container {
-            display: flex;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .reply-btn {
-            padding: 12px 30px;
-            font-size: 1.1rem;
-        }
-
+        .reply-container { display: flex; gap: 20px; margin-top: 30px; }
+        .reply-btn { padding: 12px 30px; font-size: 1.1rem; }
         .reply-yes { background-color: var(--success-green); }
         .reply-no { background-color: var(--warning-amber); }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes glow { 0% { box-shadow: 0 0 5px var(--whatsapp-green); } 50% { box-shadow: 0 0 20px var(--whatsapp-green); } 100% { box-shadow: 0 0 5px var(--whatsapp-green); } }
 
-        @keyframes glow {
-            0% { box-shadow: 0 0 3px var(--whatsapp-green); }
-            50% { box-shadow: 0 0 15px var(--whatsapp-green); transform: scale(1.01); }
-            100% { box-shadow: 0 0 3px var(--whatsapp-green); }
-        }
-
-        /* hidden success message */
-        #success-reveal {
+        /* Overlay Styles */
+        #overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.9);
-            z-index: 999;
+            background: rgba(10, 10, 46, 0.95);
+            z-index: 1000;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            animation: fadeIn 1s;
+            padding: 30px;
+            text-align: center;
+            animation: fadeIn 0.5s;
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Page Themes */
-        #page1 { background: linear-gradient(to bottom, #1a1a2e, #16213e); opacity: 1; transform: translateX(0); }
+        /* Background Colors */
+        #page1 { background: linear-gradient(to bottom, #1a1a2e, #16213e); }
         #page2 { background: linear-gradient(to bottom, #16213e, #0f3460); }
         #page3 { background: linear-gradient(to bottom, #0f3460, #533483); }
         #page4 { background: linear-gradient(to bottom, #533483, #1a1a2e); }
-
         .highlight { color: var(--gold); font-weight: bold; }
     </style>
 </head>
@@ -156,6 +146,7 @@
         <h1>हजुर मेरो लागि प्रेरणा हो! 🌟</h1>
         <p>सबैको काका हुन्छन्, तर हजुर जस्तो <span class="highlight">Special</span> कसैको हुँदैन। हजुरको सफलता र व्यक्तित्वले मलाई सधैं अगाडि बढ्न सिकाउँछ।</p>
         <button class="nav-btn" onclick="nextPage(2)">अझै एउटा कुरा छ... ❤️</button>
+        <button class="back-btn" onclick="prevPage(2)">पछाडि जानुहोस्</button>
     </div>
 
     <div class="page" id="page3">
@@ -163,6 +154,7 @@
         <h1>हजुरको भतिजोको प्रगति 🚀</h1>
         <p>काका, म केहि नयाँ र ठूलो गर्ने प्रयास गर्दैछु। हजुरको सानो साथले मेरो यो मेहनतलाई अझै सफल बनाउन सक्छ। हजुरको माया नै मेरो सबैभन्दा ठूलो शक्ति हो।</p>
         <button class="nav-btn" onclick="nextPage(3)">मेरो मनको कुरा... 👉</button>
+        <button class="back-btn" onclick="prevPage(3)">पछाडि जानुहोस्</button>
     </div>
 
     <div class="page" id="page4">
@@ -173,56 +165,58 @@
         </div>
 
         <div class="reply-container">
-            <button class="reply-btn reply-yes" onclick="showReply('yes')">हुन्छ बाबु!</button>
-            <button class="reply-btn reply-no" onclick="showReply('no')">अलि विचार गर्छु...</button>
+            <button class="reply-btn reply-yes" onclick="showOverlay('yes')">हुन्छ बाबु!</button>
+            <button class="reply-btn reply-no" onclick="showOverlay('no')">अलि विचार गर्छु...</button>
         </div>
-        
-        <a href="https://wa.me/9779748899306?text=हुन्छ%20मेरो%20पिरिए%20भतिज%20कति%20चाइन्छ%20भन%20।" 
-           class="wa-btn">एउटा विशेष सरप्राइज पाउनुहोस् 🎁</a>
-
+        <button class="back-btn" onclick="prevPage(4)">पछाडि जानुहोस्</button>
         <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 15px;">- हजुरको प्रिय भतिजो, निर</p>
     </div>
 
-    <div id="success-reveal">
-        <h1 id="reply-title">धन्यवाद काका! ❤️</h1>
-        <p id="reply-text">हजुरको यो माया र साथ मेरो लागि सबैभन्दा ठूलो आशीर्वाद हो।</p>
-        <p style="font-size: 0.8rem; opacity: 0.6;">Powered by NK Digital Services</p>
+    <div id="overlay">
+        <h1 id="overlay-title">धन्यवाद काका!</h1>
+        <p id="overlay-text"></p>
+        
+        <a id="wa-link" href="https://wa.me/9779748899306?text=हुन्छ%20मेरो%20पिरिए%20भतिज%20कति%20चाइन्छ%20भन%20।" 
+           class="wa-btn">यहाँ थिच्नुहोस् काका 🎁</a>
+        
+        <button class="back-btn" onclick="closeOverlay()">फेरि हेर्नुहोस्</button>
     </div>
 
     <script>
         const music = document.getElementById('mainMusic');
 
-        function nextPage(pageNumber) {
-            if(pageNumber === 1) {
-                music.play().catch(e => console.log("Music play blocked"));
-            }
+        function nextPage(num) {
+            if(num === 1) music.play();
+            document.getElementById('page'+num).className = 'page exit';
+            document.getElementById('page'+(num+1)).className = 'page active';
+        }
 
-            const currentId = 'page' + pageNumber;
-            const nextId = 'page' + (pageNumber + 1);
+        function prevPage(num) {
+            document.getElementById('page'+num).className = 'page translateX(100%) opacity:0'; 
+            // Simple logic for back button
+            document.getElementById('page'+num).style.transform = 'translateX(100%)';
+            document.getElementById('page'+num).style.opacity = '0';
+            document.getElementById('page'+(num-1)).style.transform = 'translateX(0)';
+            document.getElementById('page'+(num-1)).style.opacity = '1';
+        }
 
-            document.getElementById(currentId).classList.remove('active');
-            document.getElementById(currentId).classList.add('exit');
-            
-            const nextPageEl = document.getElementById(nextId);
-            if(nextPageEl) {
-                nextPageEl.classList.add('active');
+        function showOverlay(type) {
+            const overlay = document.getElementById('overlay');
+            const title = document.getElementById('overlay-title');
+            const text = document.getElementById('overlay-text');
+            overlay.style.display = 'flex';
+
+            if(type === 'yes') {
+                title.innerText = "हजुर महान हुनुहुन्छ! 😍";
+                text.innerText = "मलाई थाहा थियो काकाले कहिल्यै नाइँ भन्नुहुन्न। तलको बटनमा गएर आशिर्वाद दिनुहोस्।";
+            } else {
+                title.innerText = "हस काका, ❤️";
+                text.innerText = "त्यसो भए तलको बटनमा गइस्यो काका, हजुरको सल्लाह नै मेरो लागि धेरै छ।";
             }
         }
 
-        function showReply(type) {
-            const reveal = document.getElementById('success-reveal');
-            const title = document.getElementById('reply-title');
-            const text = document.getElementById('reply-text');
-            
-            reveal.style.display = 'flex';
-
-            if(type === 'yes') {
-                title.innerText = "मलाई थाहा थियो! 😍";
-                text.innerText = "हजुर जस्तो काका कसैको हुँदैन। धन्यवाद काका! म हजुरलाई कल गर्छु।";
-            } else {
-                title.innerText = "हस काका, ❤️";
-                text.innerText = "केहि छैन काका, हजुरको माया नै मेरो लागि धेरै ठूलो कुरा हो।";
-            }
+        function closeOverlay() {
+            document.getElementById('overlay').style.display = 'none';
         }
     </script>
 </body>
